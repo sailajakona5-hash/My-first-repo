@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Web Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f8fa;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    .sidebar {
+      width: 200px;
+      background: #222;
+      color: #fff;
+      position: fixed;
+      top: 4em;
+      height: 100%;
+      padding: 2em 1em;
+    }
+    .sidebar a {
+      display: block;
+      color: #fff;
+      padding: 0.6em;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+    }
+    .sidebar a:hover {
+      background: #444;
+    }
+    main {
+      margin-left: 220px;
+      padding: 2em;
+    }
+    .card {
+      background: #fff;
+      margin-bottom: 2em;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 1em;
+    }
+    #chart {
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard</h1>
+  </header>
+  <div class="sidebar">
+    <a href="#" onclick="showPanel('overview')">Overview</a>
+    <a href="#" onclick="showPanel('stats')">Statistics</a>
+    <a href="#" onclick="showPanel('chart')">Chart</a>
+  </div>
+  <main>
+    <div id="overview" class="card">
+      <h2>Overview</h2>
+      <p>Welcome to your data dashboard. Select a tab on the left.</p>
+    </div>
+    <div id="stats" class="card" style="display:none;">
+      <h2>Statistics</h2>
+      <ul>
+        <li>Users: <span id="users">235</span></li>
+        <li>Active Sessions: <span id="sessions">58</span></li>
+      </ul>
+    </div>
+    <div id="chart" class="card" style="display:none;">
+      <h2>Sample Chart</h2>
+      <canvas id="myChart"></canvas>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    function showPanel(panel) {
+      document.getElementById('overview').style.display = (panel === 'overview') ? 'block' : 'none';
+      document.getElementById('stats').style.display = (panel === 'stats') ? 'block' : 'none';
+      document.getElementById('chart').style.display = (panel === 'chart') ? 'block' : 'none';
+      if(panel === 'chart' && !window.chartRendered) {
+        renderChart();
+      }
+    }
+    function renderChart() {
+      var ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+          datasets: [{
+            label: 'Sales',
+            data: [120, 190, 300, 150],
+            backgroundColor: '#4e73df'
+          }]
+        }
+      });
+      window.chartRendered = true;
+    }
+  </script>
+</body>
+</html>
